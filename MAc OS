@@ -1,0 +1,23 @@
+I'm trying to install OAuth version 1.2.3 locally with pecl install (running PHP 5.6.10 on Mac OSX El Capitan). Running the following in command prompt:
+
+sudo pecl install oauth-1.2.3
+Installation starts fine and runs without errors up until build is done. Then I get this error:
+
+Build process completed successfully
+Installing '/usr/lib/php/extensions/no-debug-non-zts-20121212/oauth.so'
+ERROR: failed to write /usr/lib/php/extensions/no-debug-non-zts-`20121212/oauth.so 
+(copy(/usr/lib/php/extensions/no-debug-non-zts-20121212/oauth.so): 
+failed to open stream: Operation not permitted)`
+ls shows no oauth.so in folder no-debug-non-zts-20121212, but other than that, folder looks fine.
+
+
+
+Solution: You need to disable the System Integrity Protection.
+
+Reboot the Mac and hold down Command + R keys simultaneously after you hear the startup chime, this will boot OS X into Recovery Mode.
+When the "OS X Utilities" screen appears, pull down the "Utilities" menu at the top of the screen, and choose "Terminal".
+Type the following command into the terminal then hit return: csrutil disable
+You’ll see a message saying that System Integrity Protection has been disabled and the Mac needs to restart for changes to take effect.
+Enter the reboot command, and the Mac will then reboot itself automatically, just let it boot up as normal.
+Then try again with sudo pecl install oauth-1.2.3. After the oauth.so is correctly installed in /usr/lib/php/extensions/no-debug-non-zts-20121212/ you should enable the SIP again (after all, this is a feature to protect our system, so it's better to keep it ON).
+
